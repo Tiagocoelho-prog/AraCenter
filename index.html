@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>AraCenter</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23701615'/><g transform='translate(25,0) scale(0.5,0.5)'><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200' fill='none' stroke='%23ffffff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M50 8 C44 12 34 22 30 35 C26 48 27 62 28 72 C26 80 24 90 26 102 C28 116 32 128 36 140 C38 150 42 162 50 192 C58 162 62 150 64 140 C68 128 72 116 74 102 C76 90 74 80 72 72 C73 62 74 48 70 35 C66 22 56 12 50 8Z'/><line x1='50' y1='8' x2='50' y2='192'/><path d='M50 30 C46 28 40 26 36 28'/><path d='M50 42 C44 39 37 37 32 40'/><path d='M50 54 C43 51 36 50 30 53'/><path d='M50 30 C54 28 60 26 64 28'/><path d='M50 42 C56 39 63 37 68 40'/><path d='M50 54 C57 51 64 50 70 53'/><path d='M50 70 C43 67 36 67 29 70'/><path d='M50 84 C43 82 37 82 31 85'/><path d='M50 98 C44 96 38 97 33 100'/><path d='M50 70 C57 67 64 67 71 70'/><path d='M50 84 C57 82 63 82 69 85'/><path d='M50 98 C56 96 62 97 67 100'/><path d='M50 114 C45 112 40 113 36 116'/><path d='M50 128 C46 127 42 127 38 130'/><path d='M50 142 C47 141 44 142 41 144'/><path d='M50 114 C55 112 60 113 64 116'/><path d='M50 128 C54 127 58 127 62 130'/><path d='M50 142 C53 141 56 142 59 144'/></svg></g></svg>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F4F6F3;color:#1a1a1a;-webkit-tap-highlight-color:transparent}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:#F4F6F3;position:relative}
+
+/* Header */
+.header{background:#701615;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.header-left{display:flex;align-items:center;gap:8px}
+.header-logo{width:22px;height:30px;background:rgba(255,255,255,.2);border-radius:6px;display:flex;align-items:center;justify-content:center;padding:3px 4px}
+.header-logo svg{width:100%;height:100%}
+.header-logo i{font-size:16px;color:#fff}
+.header-title{color:#fff;font-weight:600;font-size:16px;letter-spacing:-.2px}
+.header-user{color:rgba(255,255,255,.85);font-size:12px}
+.header-logout{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:5px 10px;border-radius:8px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:4px}
+
+/* Nav */
+.nav{background:#fff;border-bottom:1px solid #e8ede8;display:flex;position:sticky;top:52px;z-index:40}
+.nav-btn{flex:1;padding:10px 4px 8px;border:none;background:none;cursor:pointer;font-size:10px;color:#888;display:flex;flex-direction:column;align-items:center;gap:3px;border-bottom:2px solid transparent;transition:all .2s}
+.nav-btn.active{color:#701615;border-bottom-color:#701615}
+.nav-btn i{font-size:18px}
+
+/* Pages */
+.page{display:none;padding:14px}
+.page.active{display:block}
+
+/* Cards */
+.card{background:#fff;border-radius:14px;border:1px solid #e8ede8;padding:.85rem 1rem;margin-bottom:10px}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:600}
+.badge.urgent{background:#FCEBEB;color:#A32D2D}
+.badge.soon{background:#FEF3CD;color:#854F0B}
+.badge.ok{background:#f5e8e8;color:#701615}
+.badge.new{background:#f5e8e8;color:#4a0e0d}
+.badge.info{background:#E6F1FB;color:#185FA5}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 14px;border-radius:10px;border:1px solid #d0d8d0;background:#fff;color:#1a1a1a;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+.btn:hover{background:#f5f8f5}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:#701615;color:#fff;border-color:#4a0e0d}
+.btn.primary:hover{background:#4a0e0d}
+.btn.sm{padding:5px 9px;font-size:12px;border-radius:8px}
+.btn.danger{color:#A32D2D;border-color:#F0997B}
+.btn.danger:hover{background:#FCEBEB}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.full{width:100%;justify-content:center}
+
+/* Forms */
+label{font-size:12px;color:#666;display:block;margin-bottom:3px;font-weight:500}
+input[type=text],input[type=password],input[type=number],input[type=date],select,textarea{
+  width:100%;padding:10px 12px;border:1px solid #d0d8d0;border-radius:10px;font-size:14px;
+  background:#fff;color:#1a1a1a;outline:none;margin-bottom:10px;-webkit-appearance:none;
+  transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:#701615}
+textarea{min-height:56px;resize:vertical}
+.row{display:flex;gap:8px}
+.row>*{flex:1}
+
+/* Typography */
+h3{font-size:16px;font-weight:600;margin-bottom:10px}
+h4{font-size:14px;font-weight:600}
+.meta{font-size:12px;color:#888}
+
+/* Check items */
+.check-item{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid #f0f4f0;cursor:pointer}
+.check-item:last-child{border-bottom:none}
+.check-box{width:22px;height:22px;border-radius:6px;border:1.5px solid #cdd8cd;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .15s;background:#fff}
+.check-box.checked{background:#701615;border-color:#4a0e0d;color:#fff}
+
+/* Mode toggle */
+.mode-toggle{display:flex;gap:6px;margin-bottom:8px}
+.mode-btn{flex:1;padding:7px 4px;border-radius:9px;border:1px solid #d0d8d0;background:none;cursor:pointer;font-size:11px;font-weight:500;color:#888;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:4px}
+.mode-btn.active{background:#f5e8e8;color:#4a0e0d;border-color:#c47c7b}
+
+/* Stats */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stat{background:#fff;border-radius:12px;border:1px solid #e8ede8;padding:10px;text-align:center}
+.stat-val{font-size:22px;font-weight:700}
+.stat-lbl{font-size:10px;color:#888;margin-top:2px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+
+/* Progress bar */
+.prog-bar{height:3px;border-radius:2px;background:#f0f4f0;margin-top:5px;overflow:hidden}
+.prog-fill{height:100%;border-radius:2px;transition:width .3s}
+
+/* Section titles */
+.sect{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:14px 0 6px;display:flex;align-items:center;gap:5px}
+
+/* Icon circle */
+.icon-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* Empty */
+.empty{text-align:center;padding:32px 16px;color:#aaa;font-size:13px}
+.empty i{font-size:40px;display:block;margin-bottom:8px;opacity:.5}
+
+/* Login */
+.login-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#fdf0f0 0%,#f5e8e8 100%)}
+.login-logo{width:64px;height:86px;border-radius:20px;background:#701615;display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:0 8px 24px rgba(112,22,21,.3);padding:8px 12px}
+.login-logo svg{width:100%;height:100%}
+.login-logo i{font-size:36px;color:#fff}
+.login-title{font-size:24px;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.login-sub{font-size:13px;color:#888;margin-bottom:28px;text-align:center;max-width:240px;line-height:1.5}
+.login-card{background:#fff;border-radius:18px;border:1px solid #e8ede8;padding:22px;width:100%;max-width:320px;box-shadow:0 4px 24px rgba(0,0,0,.07)}
+.tab-pills{display:flex;border:1px solid #e0e8e0;border-radius:10px;overflow:hidden;margin-bottom:18px}
+.tab-pill{flex:1;padding:9px;border:none;background:none;cursor:pointer;font-size:13px;font-weight:500;color:#888;transition:all .15s}
+.tab-pill.active{background:#701615;color:#fff}
+.login-err{font-size:12px;color:#A32D2D;margin-bottom:8px;min-height:16px;font-weight:500}
+
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;z-index:200}
+.modal{background:#fff;border-radius:20px 20px 0 0;padding:20px 18px 32px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+.modal-handle{width:36px;height:4px;background:#e0e0e0;border-radius:2px;margin:0 auto 16px}
+.modal h3{margin-bottom:14px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+
+/* Toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;font-weight:500;z-index:300;white-space:nowrap;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+
+/* Genus dot */
+.gdot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0}
+.pw-wrap{position:relative;margin-bottom:10px}
+.pw-wrap input{margin-bottom:0;padding-right:40px}
+.pw-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#aaa;padding:4px;display:flex;align-items:center}
+.pw-eye:hover{color:#555}
+</style>
+
+<meta name="theme-color" content="#701615">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AraCenter">
+<link rel="apple-touch-icon" href="#apple-icon">
+
+<script>
+// ── Inline Manifest (injected as blob so no external file needed) ──────────
+const manifestData = {
+  name: "AraCenter",
+  short_name: "AraCenter",
+  description: "Gerenciador de adubação para colecionadores de aráceas",
+  start_url: "./",
+  display: "standalone",
+  orientation: "portrait",
+  background_color: "#701615",
+  theme_color: "#701615",
+  icons: [
+    { src: _getIconDataUrl(192), sizes: "192x192", type: "image/png", purpose: "any maskable" },
+    { src: _getIconDataUrl(512), sizes: "512x512", type: "image/png", purpose: "any maskable" }
+  ]
+};
+
+function _getIconDataUrl(size) {
+  const canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  // Background
+  ctx.fillStyle = '#701615';
+  const r = size * 0.22;
+  ctx.beginPath();
+  ctx.moveTo(r,0); ctx.lineTo(size-r,0);
+  ctx.quadraticCurveTo(size,0,size,r);
+  ctx.lineTo(size,size-r); ctx.quadraticCurveTo(size,size,size-r,size);
+  ctx.lineTo(r,size); ctx.quadraticCurveTo(0,size,0,size-r);
+  ctx.lineTo(0,r); ctx.quadraticCurveTo(0,0,r,0);
+  ctx.closePath(); ctx.fill();
+  // Draw leaf SVG path via Path2D scaled to canvas
+  ctx.strokeStyle = 'white';
+  ctx.lineWidth = size * 0.028;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  const s = size / 100;
+  const t = size * 0.1; // top padding
+  const h = size * 0.82; // leaf height in canvas
+  const hs = h / 200; // scale from viewBox 100x200
+  const cx = size / 2;
+  // Outline
+  ctx.beginPath();
+  ctx.moveTo(cx, t);
+  ctx.bezierCurveTo(cx-15*s,t+5*hs*100/h*h/100*s,cx-36*s,t+22*hs*100,cx-32*s,t+44*hs*100);
+  ctx.bezierCurveTo(cx-30*s,t+58*hs*100,cx-32*s,t+72*hs*100,cx-24*s,t+80*hs*100);
+  ctx.bezierCurveTo(cx-26*s,t+88*hs*100,cx-24*s,t+96*hs*100,cx-22*s,t+104*hs*100);
+  ctx.bezierCurveTo(cx-20*s,t+118*hs*100,cx-18*s,t+130*hs*100,cx-14*s,t+142*hs*100);
+  ctx.bezierCurveTo(cx-12*s,t+152*hs*100,cx-8*s,t+164*hs*100,cx,t+h);
+  ctx.bezierCurveTo(cx+8*s,t+164*hs*100,cx+12*s,t+152*hs*100,cx+14*s,t+142*hs*100);
+  ctx.bezierCurveTo(cx+18*s,t+130*hs*100,cx+20*s,t+118*hs*100,cx+22*s,t+104*hs*100);
+  ctx.bezierCurveTo(cx+24*s,t+96*hs*100,cx+26*s,t+88*hs*100,cx+24*s,t+80*hs*100);
+  ctx.bezierCurveTo(cx+32*s,t+72*hs*100,cx+30*s,t+58*hs*100,cx+32*s,t+44*hs*100);
+  ctx.bezierCurveTo(cx+36*s,t+22*hs*100,cx+15*s,t+5*hs*100,cx,t);
+  ctx.closePath();
+  ctx.stroke();
+  // Center vein
+  ctx.beginPath(); ctx.moveTo(cx,t); ctx.lineTo(cx,t+h); ctx.stroke();
+  // Side veins (left)
+  [[30,32,22,28],[42,37,35,40],[54,51,30,53],[70,67,29,70],[84,82,31,85],[98,96,33,100],[114,112,36,116],[128,127,38,130],[142,141,41,144]].forEach(([y1,y2,x2,vy])=>{
+    ctx.beginPath(); ctx.moveTo(cx,t+y1*hs*100); ctx.lineTo(cx-x2*s,t+vy*hs*100); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx,t+y1*hs*100); ctx.lineTo(cx+x2*s,t+vy*hs*100); ctx.stroke();
+  });
+  return canvas.toDataURL('image/png');
+}
+
+// Inject manifest
+window.addEventListener('DOMContentLoaded', () => {
+  const blob = new Blob([JSON.stringify(manifestData)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest'; link.href = url;
+  document.head.appendChild(link);
+
+  // Apple touch icon
+  const iconUrl = _getIconDataUrl(180);
+  document.querySelectorAll('link[rel="apple-touch-icon"]').forEach(l => l.href = iconUrl);
+
+  // Register Service Worker
+  if('serviceWorker' in navigator){
+    const swCode = `
+const CACHE = 'aracenter-v1';
+self.addEventListener('install', e => {
+  self.skipWaiting();
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/'])));
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(clients.claim());
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => cached))
+  );
+});
+`;
+    const swBlob = new Blob([swCode], {type:'application/javascript'});
+    const swUrl = URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swUrl, {scope: '/'}).catch(()=>{
+      // scope fallback for local file
+      navigator.serviceWorker.register(swUrl).catch(console.warn);
+    });
+  }
+});
+</script>
+</head>
+<body>
+<div class="app" id="app">
+  <div id="loginScreen"></div>
+  <div id="mainApp" style="display:none">
+    <div class="header">
+      <div class="header-left">
+        <div class="header-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 8 C44 12 34 22 30 35 C26 48 27 62 28 72 C26 80 24 90 26 102 C28 116 32 128 36 140 C38 150 42 162 50 192 C58 162 62 150 64 140 C68 128 72 116 74 102 C76 90 74 80 72 72 C73 62 74 48 70 35 C66 22 56 12 50 8Z"/><line x1="50" y1="8" x2="50" y2="192"/><path d="M50 30 C46 28 40 26 36 28"/><path d="M50 42 C44 39 37 37 32 40"/><path d="M50 54 C43 51 36 50 30 53"/><path d="M50 30 C54 28 60 26 64 28"/><path d="M50 42 C56 39 63 37 68 40"/><path d="M50 54 C57 51 64 50 70 53"/><path d="M50 70 C43 67 36 67 29 70"/><path d="M50 84 C43 82 37 82 31 85"/><path d="M50 98 C44 96 38 97 33 100"/><path d="M50 70 C57 67 64 67 71 70"/><path d="M50 84 C57 82 63 82 69 85"/><path d="M50 98 C56 96 62 97 67 100"/><path d="M50 114 C45 112 40 113 36 116"/><path d="M50 128 C46 127 42 127 38 130"/><path d="M50 142 C47 141 44 142 41 144"/><path d="M50 114 C55 112 60 113 64 116"/><path d="M50 128 C54 127 58 127 62 130"/><path d="M50 142 C53 141 56 142 59 144"/></svg></div>
+        <span class="header-title">AraCenter</span>
+      </div>
+      <button onclick="openProfileMenu()" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 12px 5px 8px;cursor:pointer;display:flex;align-items:center;gap:7px;color:#fff;font-size:13px;font-weight:500;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.28)'" onmouseout="this.style.background='rgba(255,255,255,.18)'">
+        <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center"><i class="ti ti-user" style="font-size:13px"></i></div>
+        <span id="headerUser"></span>
+        <i class="ti ti-chevron-down" style="font-size:13px;opacity:.7"></i>
+      </button>
+    </div>
+    <div class="nav">
+      <button class="nav-btn active" onclick="goTo('home')" id="tab-home"><i class="ti ti-history"></i>Histórico</button>
+      <button class="nav-btn" onclick="goTo('checkin')" id="tab-checkin"><i class="ti ti-droplet"></i>Adubação</button>
+      <button class="nav-btn" onclick="goTo('plants')" id="tab-plants"><i class="ti ti-plant-2"></i>Plantas</button>
+      <button class="nav-btn" onclick="goTo('fertilizers')" id="tab-fertilizers"><i class="ti ti-flask"></i>Adubos</button>
+      <button class="nav-btn" onclick="goTo('genres')" id="tab-genres"><i class="ti ti-category"></i>Gêneros</button>
+    </div>
+    <div class="page active" id="page-home">
+      <div id="statsArea"></div>
+      <div id="alertsArea"></div>
+    </div>
+    <div class="page" id="page-checkin"><div id="checkinArea"></div></div>
+    <div class="page" id="page-plants">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3 style="margin:0">Minhas plantas</h3>
+        <button class="btn primary sm" onclick="openPlantModal()"><i class="ti ti-plus"></i> Adicionar</button>
+      </div>
+      <div id="plantsList"></div>
+    </div>
+    <div class="page" id="page-fertilizers">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3 style="margin:0">Meus adubos</h3>
+        <button class="btn primary sm" onclick="openFertModal()"><i class="ti ti-plus"></i> Adicionar</button>
+      </div>
+      <div id="fertList"></div>
+    </div>
+    <div class="page" id="page-genres">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3 style="margin:0">Gêneros</h3>
+        <button class="btn primary sm" onclick="openGenreModal()"><i class="ti ti-plus"></i> Adicionar</button>
+      </div>
+      <div id="genreList"></div>
+    </div>
+  </div>
+  <div id="modalContainer"></div>
+</div>
+
+<script>
+const UK='arac_users';
+const PK=u=>'arac_plants_'+u;
+const FK=u=>'arac_ferts_'+u;
+const LK=u=>'arac_logs_'+u;
+const GK=u=>'arac_genres_'+u;
+
+let currentUser=null;
+let plants=[],fertilizers=[],logs=[],genres=[];
+let checkinState={};
+let dismissedAlerts={};
+function saveDismissed(){ localStorage.setItem('arac_dismissed_'+(currentUser||''),JSON.stringify(dismissedAlerts)); }
+function loadDismissed(){ try{ dismissedAlerts=JSON.parse(localStorage.getItem('arac_dismissed_'+(currentUser||''))||'{}'); }catch{ dismissedAlerts={}; } }
+
+// ---- Storage (localStorage fallback) ----
+function lsGet(k){try{return localStorage.getItem(k)}catch{return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch{}}
+
+// ---- Auth ----
+function loadUsers(){try{return JSON.parse(lsGet(UK)||'{}')}catch{return{}}}
+function saveUsers(u){lsSet(UK,JSON.stringify(u))}
+
+const SECRET_QUESTIONS=[
+  'Qual o nome da sua primeira arácea?',
+  'Qual a sua data de nascimento?',
+  'Em que cidade você nasceu?',
+  'Qual o apelido da sua mãe?',
+  'Qual foi seu primeiro emprego?',
+];
+
+function encode(s){return btoa(unescape(encodeURIComponent(s.toLowerCase().trim())));}
+
+function register(username,email,password,question,answer){
+  let users=loadUsers();
+  let key=username.toLowerCase().trim();
+  if(!key)return'Informe um nome de usuário.';
+  if(users[key])return'Nome de usuário já cadastrado.';
+  if(email&&Object.values(users).some(u=>typeof u==='object'&&u.email&&u.email.toLowerCase()===email.toLowerCase()))
+    return'Este e-mail já está cadastrado.';
+  users[key]={pw:encode(password),username:username.trim(),email:email?email.toLowerCase().trim():'',q:question,a:encode(answer)};
+  saveUsers(users);return null;
+}
+function resolveUsername(input){
+  let users=loadUsers();
+  let key=input.toLowerCase().trim();
+  if(users[key]) return key; // direct key match
+  // search by stored username field
+  let byUser=Object.keys(users).find(k=>{
+    let u=users[k]; return typeof u==='object'&&u.username&&u.username.toLowerCase()===key;
+  });
+  if(byUser) return byUser;
+  // search by email
+  let byEmail=Object.keys(users).find(k=>{
+    let u=users[k]; return typeof u==='object'&&u.email&&u.email.toLowerCase()===key;
+  });
+  return byEmail||null;
+}
+function doLogin(input,password){
+  let users=loadUsers();
+  let username=resolveUsername(input);
+  if(!username)return'Usuário ou e-mail não encontrado.';
+  let u=users[username];
+  let pw=typeof u==='string'?u:u.pw;
+  if(pw!==encode(password))return'Senha incorreta.';
+  if(typeof u==='string'){users[username]={pw:u,q:null,a:null,email:''};saveUsers(users);}
+  return null; // returns actual username key
+}
+function getResolvedUsername(input){
+  return resolveUsername(input)||input.toLowerCase();
+}
+
+function toggleEye(inputId,btn){
+  let inp=document.getElementById(inputId);
+  if(!inp)return;
+  let show=inp.type==='password';
+  inp.type=show?'text':'password';
+  btn.innerHTML=show?'<i class="ti ti-eye-off"></i>':'<i class="ti ti-eye"></i>';
+}
+
+const QUESTIONS_HTML=SECRET_QUESTIONS.map((q,i)=>`<option value="${i}">${q}</option>`).join('');
+
+function openProfileMenu(){
+  let users=loadUsers();
+  let u=users[currentUser]||{};
+  let emailDisplay=u.email||'—';
+  let usernameDisplay=u.username||currentUser;
+  let hasQuestion=u.q!==null&&u.q!==undefined&&u.q!=='custom';
+  let questionText=hasQuestion?SECRET_QUESTIONS[parseInt(u.q)]:'Não cadastrada';
+  showModal(`<div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
+      <div style="width:48px;height:48px;border-radius:50%;background:#f5e8e8;display:flex;align-items:center;justify-content:center">
+        <i class="ti ti-user" style="font-size:24px;color:#701615"></i>
+      </div>
+      <div>
+        <div style="font-size:16px;font-weight:700;color:#1a1a1a">${usernameDisplay}</div>
+        <div style="font-size:12px;color:#aaa">${emailDisplay}</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn" style="justify-content:flex-start;gap:10px" onclick="closeModal();setTimeout(openResetPassword,150)">
+        <i class="ti ti-lock" style="font-size:16px;color:#701615"></i>
+        <div style="text-align:left"><div style="font-size:13px;font-weight:600">Redefinir senha</div><div style="font-size:11px;color:#aaa">Alterar sua senha de acesso</div></div>
+      </button>
+      <button class="btn" style="justify-content:flex-start;gap:10px" onclick="closeModal();setTimeout(openResetQuestion,150)">
+        <i class="ti ti-help-circle" style="font-size:16px;color:#701615"></i>
+        <div style="text-align:left"><div style="font-size:13px;font-weight:600">Pergunta de segurança</div><div style="font-size:11px;color:#aaa;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${questionText}</div></div>
+      </button>
+      <button class="btn" style="justify-content:flex-start;gap:10px" onclick="logout();closeModal()">
+        <i class="ti ti-logout" style="font-size:16px;color:#555"></i>
+        <div style="text-align:left"><div style="font-size:13px;font-weight:600">Sair</div><div style="font-size:11px;color:#aaa">Encerrar sessão</div></div>
+      </button>
+      <div style="height:1px;background:#f0f0f0;margin:4px 0"></div>
+      <button class="btn danger" style="justify-content:flex-start;gap:10px" onclick="closeModal();setTimeout(confirmDeleteAccount,150)">
+        <i class="ti ti-user-x" style="font-size:16px"></i>
+        <div style="text-align:left"><div style="font-size:13px;font-weight:600">Excluir conta</div><div style="font-size:11px;color:#aaa">Remove todos os dados permanentemente</div></div>
+      </button>
+    </div>`);
+}
+
+function openResetPassword(){
+  showModal(`<div class="modal-handle"></div>
+    <h3>Redefinir senha</h3>
+    <label>Senha atual</label>
+    <div class="pw-wrap"><input type="password" id="rpOld" placeholder="Senha atual"><button type="button" class="pw-eye" onclick="toggleEye('rpOld',this)"><i class="ti ti-eye"></i></button></div>
+    <label>Nova senha</label>
+    <div class="pw-wrap"><input type="password" id="rpNew" placeholder="Nova senha"><button type="button" class="pw-eye" onclick="toggleEye('rpNew',this)"><i class="ti ti-eye"></i></button></div>
+    <label>Confirmar nova senha</label>
+    <div class="pw-wrap"><input type="password" id="rpNew2" placeholder="Repita a nova senha"><button type="button" class="pw-eye" onclick="toggleEye('rpNew2',this)"><i class="ti ti-eye"></i></button></div>
+    <div style="font-size:12px;color:#A32D2D;min-height:16px;margin-bottom:6px" id="rpErr"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" onclick="saveResetPassword()">Salvar</button>
+    </div>`);
+}
+function saveResetPassword(){
+  let old=document.getElementById('rpOld').value;
+  let nw=document.getElementById('rpNew').value;
+  let nw2=document.getElementById('rpNew2').value;
+  if(doLogin(currentUser,old)){document.getElementById('rpErr').textContent='Senha atual incorreta.';return;}
+  if(!nw){document.getElementById('rpErr').textContent='Digite a nova senha.';return;}
+  if(nw!==nw2){document.getElementById('rpErr').textContent='As senhas não coincidem.';return;}
+  let users=loadUsers();
+  users[currentUser].pw=encode(nw);
+  saveUsers(users);
+  closeModal();showToast('Senha alterada com sucesso!');
+}
+
+function openResetQuestion(){
+  let users=loadUsers(); let u=users[currentUser]||{};
+  let curQ=(u.q!==null&&u.q!==undefined&&u.q!=='custom')?SECRET_QUESTIONS[parseInt(u.q)]:'Não cadastrada';
+  showModal(`<div class="modal-handle"></div>
+    <h3>Pergunta de segurança</h3>
+    <div style="font-size:12px;color:#888;background:#f8f8f8;border-radius:10px;padding:10px;margin-bottom:14px">
+      Atual: <strong>${curQ}</strong>
+    </div>
+    <label>Confirme sua senha</label>
+    <div class="pw-wrap"><input type="password" id="rqPass" placeholder="Sua senha"><button type="button" class="pw-eye" onclick="toggleEye('rqPass',this)"><i class="ti ti-eye"></i></button></div>
+    <label>Nova pergunta de segurança</label>
+    <select id="rqQ">${QUESTIONS_HTML}</select>
+    <label>Nova resposta</label>
+    <input type="text" id="rqA" placeholder="Sua resposta (não diferencia maiúsculas)">
+    <div style="font-size:12px;color:#A32D2D;min-height:16px;margin-bottom:6px" id="rqErr"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" onclick="saveResetQuestion()">Salvar</button>
+    </div>`);
+}
+function saveResetQuestion(){
+  let pass=document.getElementById('rqPass').value;
+  let q=document.getElementById('rqQ').value;
+  let a=document.getElementById('rqA').value.trim();
+  if(doLogin(currentUser,pass)){document.getElementById('rqErr').textContent='Senha incorreta.';return;}
+  if(!a){document.getElementById('rqErr').textContent='Informe a resposta.';return;}
+  let users=loadUsers();
+  users[currentUser].q=q; users[currentUser].a=encode(a);
+  saveUsers(users);
+  closeModal();showToast('Pergunta de segurança atualizada!');
+}
+
+function confirmDeleteAccount(){
+  showModal(`<div class="modal-handle"></div>
+    <h3 style="color:#A32D2D"><i class="ti ti-alert-triangle" style="font-size:18px;vertical-align:-2px"></i> Excluir conta</h3>
+    <p style="font-size:13px;color:#555;margin-bottom:16px;line-height:1.5">
+      Isso vai apagar permanentemente sua conta, todas as plantas, adubos e histórico. Esta ação não pode ser desfeita.
+    </p>
+    <label>Digite sua senha para confirmar</label>
+    <div class="pw-wrap">
+      <input type="password" id="delPass" placeholder="Sua senha atual">
+      <button type="button" class="pw-eye" onclick="toggleEye('delPass',this)"><i class="ti ti-eye"></i></button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn danger" onclick="deleteAccount()"><i class="ti ti-trash"></i> Excluir permanentemente</button>
+    </div>`);
+}
+function deleteAccount(){
+  let pass=document.getElementById('delPass').value;
+  let err=doLogin(currentUser,pass);
+  if(err){alert('Senha incorreta. A conta não foi excluída.');return;}
+  // remove all user data
+  let keys=['arac_plants_','arac_ferts_','arac_logs_','arac_genres_'];
+  keys.forEach(k=>localStorage.removeItem(k+currentUser));
+  // remove from users registry
+  let users=loadUsers();
+  delete users[currentUser];
+  saveUsers(users);
+  closeModal();
+  currentUser=null;plants=[];fertilizers=[];logs=[];genres=[];checkinState={};
+  document.getElementById('mainApp').style.display='none';
+  document.getElementById('loginScreen').style.display='block';
+  renderLogin('login');
+  setTimeout(()=>showToast('Conta excluída com sucesso.'),100);
+}
+
+function renderLogin(tab='login'){
+  document.getElementById('loginScreen').innerHTML=`
+  <div class="login-wrap">
+    <div class="login-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 200" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 8 C44 12 34 22 30 35 C26 48 27 62 28 72 C26 80 24 90 26 102 C28 116 32 128 36 140 C38 150 42 162 50 192 C58 162 62 150 64 140 C68 128 72 116 74 102 C76 90 74 80 72 72 C73 62 74 48 70 35 C66 22 56 12 50 8Z"/><line x1="50" y1="8" x2="50" y2="192"/><path d="M50 30 C46 28 40 26 36 28"/><path d="M50 42 C44 39 37 37 32 40"/><path d="M50 54 C43 51 36 50 30 53"/><path d="M50 30 C54 28 60 26 64 28"/><path d="M50 42 C56 39 63 37 68 40"/><path d="M50 54 C57 51 64 50 70 53"/><path d="M50 70 C43 67 36 67 29 70"/><path d="M50 84 C43 82 37 82 31 85"/><path d="M50 98 C44 96 38 97 33 100"/><path d="M50 70 C57 67 64 67 71 70"/><path d="M50 84 C57 82 63 82 69 85"/><path d="M50 98 C56 96 62 97 67 100"/><path d="M50 114 C45 112 40 113 36 116"/><path d="M50 128 C46 127 42 127 38 130"/><path d="M50 142 C47 141 44 142 41 144"/><path d="M50 114 C55 112 60 113 64 116"/><path d="M50 128 C54 127 58 127 62 130"/><path d="M50 142 C53 141 56 142 59 144"/></svg></div>
+    <div class="login-title">AraCenter</div>
+    <div class="login-sub">Gerenciador de adubação para colecionadores de aráceas</div>
+    <div class="login-card">
+      <div class="tab-pills">
+        <button class="tab-pill ${tab==='login'?'active':''}" onclick="renderLogin('login')">Entrar</button>
+        <button class="tab-pill ${tab==='register'?'active':''}" onclick="renderLogin('register')">Criar conta</button>
+      </div>
+      <div class="login-err" id="loginErr"></div>
+      ${tab==='login'?`
+        <label>Usuário ou e-mail</label>
+        <input type="text" id="authUser" placeholder="Nome de usuário ou e-mail" autocomplete="username">
+        <label>Senha</label>
+        <div class="pw-wrap">
+          <input type="password" id="authPass" placeholder="Sua senha" autocomplete="current-password">
+          <button type="button" class="pw-eye" onclick="toggleEye('authPass',this)" aria-label="Mostrar senha"><i class="ti ti-eye"></i></button>
+        </div>
+      `:`
+        <label>E-mail <span style="font-weight:400;color:#bbb;font-size:11px">(opcional)</span></label>
+        <input type="text" id="authEmail" placeholder="seu@email.com" autocomplete="email" inputmode="email">
+        <label>Usuário *</label>
+        <input type="text" id="authUserReg" placeholder="Ex: botanico123" autocomplete="username">
+        <label>Senha</label>
+        <div class="pw-wrap">
+          <input type="password" id="authPass" placeholder="Sua senha" autocomplete="new-password">
+          <button type="button" class="pw-eye" onclick="toggleEye('authPass',this)" aria-label="Mostrar senha"><i class="ti ti-eye"></i></button>
+        </div>
+        <label>Confirmar senha</label>
+        <div class="pw-wrap">
+          <input type="password" id="authPass2" placeholder="Repita a senha" autocomplete="new-password">
+          <button type="button" class="pw-eye" onclick="toggleEye('authPass2',this)" aria-label="Mostrar senha"><i class="ti ti-eye"></i></button>
+        </div>
+        <label>Pergunta de segurança *</label>
+        <select id="authQ">${QUESTIONS_HTML}</select>
+        <label>Resposta *</label>
+        <input type="text" id="authA" placeholder="Sua resposta (não diferencia maiúsculas)">
+        <p style="font-size:11px;color:#aaa;margin-top:-6px;margin-bottom:10px">Usada para recuperar o acesso caso esqueça a senha.</p>
+      `}
+      <button class="btn primary full" style="margin-top:4px" onclick="doAuth('${tab}')">
+        ${tab==='login'?'Entrar':'Criar conta'}
+      </button>
+    </div>
+    ${tab==='login'?`
+    <div style="margin-top:12px;width:100%;max-width:320px">
+      <button class="btn full" style="justify-content:center;color:#701615;border-color:#d4a0a0;background:#fff;width:100%" onclick="renderRecover('step1')">
+        <i class="ti ti-key" style="font-size:15px"></i> Esqueci minha senha
+      </button>
+    </div>`:''}
+  </div>`;
+}
+
+function renderRecover(step,username=''){
+  let users=loadUsers();
+  if(step==='step1'){
+    document.getElementById('loginScreen').innerHTML=`
+    <div class="login-wrap">
+      <div class="login-logo" style="background:#854F0B"><i class="ti ti-key"></i></div>
+      <div class="login-title">Recuperar acesso</div>
+      <div class="login-sub">Informe seu usuário para continuar</div>
+      <div class="login-card">
+        <div class="login-err" id="recErr"></div>
+        <label>Usuário</label>
+        <input type="text" id="recUser" placeholder="Nome de usuário ou e-mail">
+        <button class="btn primary full" style="margin-top:4px" onclick="recoverStep2()">Continuar</button>
+        <button class="btn full" style="margin-top:8px;justify-content:center" onclick="renderLogin('login')">Voltar ao login</button>
+      </div>
+    </div>`;
+  } else if(step==='step2'){
+    let u=users[username];
+    if(!u){document.getElementById('recErr').textContent='Usuário não encontrado.';return;}
+    if(typeof u==='object'&&(u.q===null||u.q===undefined)){
+      document.getElementById('recErr').textContent='Esta conta não tem palavra de segurança cadastrada.';
+      return;
+    }
+    document.getElementById('loginScreen').innerHTML=`
+    <div class="login-wrap">
+      <div class="login-logo" style="background:#854F0B"><i class="ti ti-key" style="font-size:32px;color:#fff"></i></div>
+      <div class="login-title">Pergunta de segurança</div>
+      <div class="login-sub">Responda à pergunta para redefinir sua senha</div>
+      <div class="login-card">
+        <div class="login-err" id="recErr"></div>
+        <p style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:12px;line-height:1.4">${qLabel}</p>
+        <label>Sua resposta</label>
+        <input type="text" id="recAns" placeholder="Não diferencia maiúsculas">
+        <button class="btn primary full" style="margin-top:4px" onclick="recoverStep3('${username}')">Verificar</button>
+        <button class="btn full" style="margin-top:8px;justify-content:center" onclick="renderLogin('login')">Voltar ao login</button>
+      </div>
+    </div>`;
+  } else if(step==='step3'){
+    document.getElementById('loginScreen').innerHTML=`
+    <div class="login-wrap">
+      <div class="login-logo" style="background:#701615"><i class="ti ti-lock-open"></i></div>
+      <div class="login-title">Nova senha</div>
+      <div class="login-sub">Crie uma nova senha para <strong>${username}</strong></div>
+      <div class="login-card">
+        <div class="login-err" id="recErr"></div>
+        <label>Nova senha</label>
+        <div class="pw-wrap">
+          <input type="password" id="newPass" placeholder="Nova senha">
+          <button type="button" class="pw-eye" onclick="toggleEye('newPass',this)" aria-label="Mostrar senha"><i class="ti ti-eye"></i></button>
+        </div>
+        <label>Confirmar nova senha</label>
+        <div class="pw-wrap">
+          <input type="password" id="newPass2" placeholder="Repita a nova senha">
+          <button type="button" class="pw-eye" onclick="toggleEye('newPass2',this)" aria-label="Mostrar senha"><i class="ti ti-eye"></i></button>
+        </div>
+        <button class="btn primary full" style="margin-top:4px" onclick="recoverSave('${username}')">Salvar nova senha</button>
+      </div>
+    </div>`;
+  }
+}
+
+function recoverStep2(){
+  let input=document.getElementById('recUser').value.trim();
+  let username=resolveUsername(input);
+  if(!username){document.getElementById('recErr').textContent='Usuário ou e-mail não encontrado.';return;}
+  let u=loadUsers()[username];
+  if(!u||(typeof u==='object'&&(u.q===null||u.q===undefined))){document.getElementById('recErr').textContent='Esta conta não tem pergunta de segurança cadastrada.';return;}
+  renderRecover('step2',username);
+}
+function recoverStep3(username){
+  let ans=document.getElementById('recAns').value.trim();
+  if(!ans){document.getElementById('recErr').textContent='Digite sua resposta.';return;}
+  let users=loadUsers();
+  let u=users[username];
+  if(encode(ans)!==u.a){document.getElementById('recErr').textContent='Resposta incorreta. Tente novamente.';return;}
+  renderRecover('step3',username);
+}
+function recoverSave(username){
+  let p1=document.getElementById('newPass').value;
+  let p2=document.getElementById('newPass2').value;
+  if(!p1){document.getElementById('recErr').textContent='Digite a nova senha.';return;}
+  if(p1!==p2){document.getElementById('recErr').textContent='As senhas não coincidem.';return;}
+  let users=loadUsers();
+  users[username].pw=encode(p1);
+  saveUsers(users);
+  showToast('Senha redefinida com sucesso!');
+  renderLogin('login');
+}
+
+function doAuth(mode){
+  let pass=document.getElementById('authPass').value;
+  let err='';
+  if(mode==='register'){
+    let regUser=(document.getElementById('authUserReg')?.value||'').trim();
+    let email=(document.getElementById('authEmail')?.value||'').trim();
+    let pass2=document.getElementById('authPass2').value;
+    let ans=document.getElementById('authA').value.trim();
+    let qIdx=document.getElementById('authQ')?.value||'0';
+    if(!pass){err='Informe a senha.';}
+    else if(!regUser){err='Informe um nome de usuário.';}
+    else if(email&&!email.includes('@')){err='Informe um e-mail válido.';}
+    else if(pass!==pass2){err='As senhas não coincidem.';}
+    else if(!ans){err='Informe a resposta da pergunta de segurança.';}
+    else{err=register(regUser,email,pass,qIdx,ans)||'';}
+    if(!err){
+      err=doLogin(regUser,pass)||'';
+      if(!err) currentUser=getResolvedUsername(regUser);
+    }
+  } else {
+    let userInput=document.getElementById('authUser').value.trim();
+    if(!userInput||!pass){err='Preencha os campos obrigatórios.';}
+    else{
+      err=doLogin(userInput,pass)||'';
+      if(!err) currentUser=getResolvedUsername(userInput);
+    }
+  }
+  if(err){document.getElementById('loginErr').textContent=err;return;}
+  let users=loadUsers();
+  let uData=users[currentUser]||{};
+  let displayName=uData.username||currentUser;
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('mainApp').style.display='block';
+  document.getElementById('headerUser').textContent=displayName;
+  loadUserData();
+  renderAll();
+  goTo('home');
+}
+
+function logout(){
+  currentUser=null;plants=[];fertilizers=[];logs=[];genres=[];checkinState={};
+  document.getElementById('mainApp').style.display='none';
+  document.getElementById('loginScreen').style.display='block';
+  renderLogin('login');
+}
+
+// ---- Data ----
+function loadUserData(){
+  loadDismissed();
+  try{plants=JSON.parse(lsGet(PK(currentUser))||'null')||getSamplePlants();}catch{plants=getSamplePlants();}
+  try{fertilizers=JSON.parse(lsGet(FK(currentUser))||'null')||getSampleFerts();}catch{fertilizers=getSampleFerts();}
+  try{logs=JSON.parse(lsGet(LK(currentUser))||'[]');}catch{logs=[];}
+  try{genres=JSON.parse(lsGet(GK(currentUser))||'null')||getSampleGenres();}catch{genres=getSampleGenres();}
+}
+function saveData(){
+  lsSet(PK(currentUser),JSON.stringify(plants));
+  lsSet(FK(currentUser),JSON.stringify(fertilizers));
+  lsSet(LK(currentUser),JSON.stringify(logs));
+  lsSet(GK(currentUser),JSON.stringify(genres));
+}
+
+function getSamplePlants(){return[
+  {id:'p1',name:'Monstera thai constellation',genreId:'g1',location:'Varanda',notes:''},
+  {id:'p2',name:'Monstera deliciosa albo',genreId:'g1',location:'Sala',notes:''},
+  {id:'p3',name:'Philodendron gloriosum',genreId:'g2',location:'Sala',notes:''},
+  {id:'p4',name:'Anthurium veitchii',genreId:'g3',location:'Estufa',notes:''},
+  {id:'p5',name:'Alocasia dragon scale',genreId:'g4',location:'Quarto',notes:''},
+];}
+function getSampleFerts(){return[
+  {id:'f1',name:'Forth Flores',type:'Líquido',npk:'4-14-8',freqDays:15},
+  {id:'f2',name:'Osmocote Plus',type:'Granulado',npk:'15-9-12',freqDays:90},
+  {id:'f3',name:'Nitrobacter',type:'Biológico',npk:'-',freqDays:30},
+];}
+function getSampleGenres(){return[
+  {id:'g1',name:'Monstera',color:'#701615'},
+  {id:'g2',name:'Philodendron',color:'#185FA5'},
+  {id:'g3',name:'Anthurium',color:'#854F0B'},
+  {id:'g4',name:'Alocasia',color:'#993556'},
+];}
+
+function uid(){return 'id'+Date.now()+Math.random().toString(36).slice(2,5);}
+function today(){return new Date().toISOString().slice(0,10);}
+function addDays(d,n){let dt=new Date(d+'T12:00:00');dt.setDate(dt.getDate()+n);return dt.toISOString().slice(0,10);}
+function daysDiff(a,b){return Math.round((new Date(b)-new Date(a))/86400000);}
+function getLastLog(plantId,fertId){return logs.filter(l=>l.plantId===plantId&&l.fertId===fertId).sort((a,b)=>b.date.localeCompare(a.date))[0]||null;}
+function urgencyInfo(nextDate){
+  let diff=daysDiff(today(),nextDate);
+  if(diff<0)return{label:'Atrasado '+Math.abs(diff)+'d',cls:'urgent',diff};
+  if(diff===0)return{label:'Hoje',cls:'urgent',diff};
+  if(diff<=3)return{label:'Em '+diff+'d',cls:'soon',diff};
+  return{label:'Em '+diff+'d',cls:'ok',diff};
+}
+function genreName(id){return genres.find(g=>g.id===id)?.name||'Sem gênero';}
+function genreColor(id){return genres.find(g=>g.id===id)?.color||'#888';}
+
+function getAllScheduled(){
+  let items=[];
+  plants.forEach(pl=>{fertilizers.forEach(fe=>{
+    let l=getLastLog(pl.id,fe.id);
+    if(l){let next=addDays(l.date,fe.freqDays);items.push({plant:pl,fert:fe,last:l,next});}
+  });});
+  return items.sort((a,b)=>a.next.localeCompare(b.next));
+}
+
+// ---- Render ----
+function renderAll(){renderHome();renderPlants();renderFerts();renderGenres();}
+
+let homeTab='ok'; let homeSearch=''; let homeFilterFert=''; let homeFilterMode='';
+
+function fmtDate(d){ if(!d)return'—'; let [y,m,dd]=d.split('-'); return dd+'/'+m+'/'+y; }
+
+function getExcessAlerts(){
+  // Excess only when same plant + same fert + same mode applied within freqDays
+  let alerts=[];
+  plants.forEach(pl=>{
+    fertilizers.forEach(fe=>{
+      let plLogs=logs.filter(l=>l.plantId===pl.id&&l.fertId===fe.id).sort((a,b)=>a.date.localeCompare(b.date));
+      // Group by mode, then check intervals within each mode
+      let modes=[...new Set(plLogs.map(l=>l.mode||'solo'))];
+      modes.forEach(mode=>{
+        let modeLogs=plLogs.filter(l=>(l.mode||'solo')===mode);
+        for(let i=1;i<modeLogs.length;i++){
+          let prev=modeLogs[i-1]; let cur=modeLogs[i];
+          let diff=daysDiff(prev.date,cur.date);
+          if(diff<fe.freqDays){
+            let key='excess_'+cur.id;
+            if(!dismissedAlerts[key]) alerts.push({plant:pl,fert:fe,log:cur,prevLog:prev,diff,key,mode});
+          }
+        }
+      });
+    });
+  });
+  return alerts;
+}
+
+function renderHome(){
+  let sc=getAllScheduled();
+  let overdueList=sc.filter(s=>urgencyInfo(s.next).diff<0);
+  let okList=sc.filter(s=>urgencyInfo(s.next).diff>=0);
+  let excess=getExcessAlerts();
+
+  document.getElementById('statsArea').innerHTML='';
+
+  // Excess alerts
+  let excessHtml='';
+  if(excess.length){
+    excessHtml=excess.map(e=>`
+      <div style="background:#FEF3CD;border:1px solid #EF9F27;border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer" onclick="showExcessDetail('${e.key}','${e.plant.name}','${e.fert.name}',${e.diff},${e.fert.freqDays},'${e.prevLog.date}','${e.log.date}','${e.mode||'solo'}')">
+        <div style="display:flex;align-items:center;gap:8px">
+          <i class="ti ti-alert-triangle" style="color:#854F0B;font-size:18px;flex-shrink:0"></i>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:12px;font-weight:600;color:#854F0B">Excesso de adubação</div>
+            <div style="font-size:12px;color:#6b4500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.plant.name} · ${e.fert.name} · ${'solo'===e.mode?'Solo':'foliar'===e.mode?'Foliar':e.mode||'—'}</div>
+            <div style="font-size:11px;color:#9a6200">Intervalo: ${e.diff}d (mín. ${e.fert.freqDays}d)</div>
+          </div>
+          <i class="ti ti-chevron-right" style="color:#EF9F27;font-size:16px;flex-shrink:0"></i>
+        </div>
+      </div>`).join('');
+  }
+
+  // Tab buttons
+  let tabHtml=`
+  <div style="display:flex;gap:8px;margin-bottom:12px">
+    <button onclick="setHomeTab('ok')" style="flex:1;padding:10px 8px;border-radius:12px;border:1.5px solid ${homeTab==='ok'?'#2a7d4f':'#d0d8d0'};background:${homeTab==='ok'?'#eaf6ef':'#fff'};cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:600;color:${homeTab==='ok'?'#1a5c38':'#888'}">
+      <i class="ti ti-circle-check" style="font-size:17px"></i> Em dia <span style="background:${homeTab==='ok'?'#2a7d4f':'#ddd'};color:${homeTab==='ok'?'#fff':'#666'};border-radius:20px;padding:1px 7px;font-size:11px">${okList.length}</span>
+    </button>
+    <button onclick="setHomeTab('late')" style="flex:1;padding:10px 8px;border-radius:12px;border:1.5px solid ${homeTab==='late'?'#A32D2D':'#d0d8d0'};background:${homeTab==='late'?'#FCEBEB':'#fff'};cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:600;color:${homeTab==='late'?'#A32D2D':'#888'}">
+      <i class="ti ti-alert-circle" style="font-size:17px"></i> Atrasadas <span style="background:${homeTab==='late'?'#A32D2D':'#ddd'};color:${homeTab==='late'?'#fff':'#666'};border-radius:20px;padding:1px 7px;font-size:11px">${overdueList.length}</span>
+    </button>
+  </div>`;
+
+  // Filter bar
+  let fertOpts=`<option value="">Todos os adubos</option>`+fertilizers.map(f=>`<option value="${f.id}" ${homeFilterFert===f.id?'selected':''}>${f.name}</option>`).join('');
+  let modeOpts=`<option value="">Todos os modos</option><option value="solo" ${homeFilterMode==='solo'?'selected':''}>Solo</option><option value="foliar" ${homeFilterMode==='foliar'?'selected':''}>Foliar</option><option value="ambos" ${homeFilterMode==='ambos'?'selected':''}>Ambos</option>`;
+  let filterHtml=`
+  <div style="background:#fff;border-radius:12px;border:1px solid #e8ede8;padding:10px 12px;margin-bottom:10px">
+    <div style="position:relative;margin-bottom:8px">
+      <i class="ti ti-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#aaa;font-size:15px"></i>
+      <input type="text" id="homeSearch" placeholder="Pesquisar planta..." value="${homeSearch}"
+        oninput="homeSearch=this.value;renderHome()"
+        style="padding:8px 10px 8px 32px;margin:0;border-radius:9px;font-size:13px">
+    </div>
+    <div style="display:flex;gap:6px">
+      <select onchange="homeFilterFert=this.value;renderHome()" style="flex:1;margin:0;font-size:12px;padding:7px 8px">${fertOpts}</select>
+      <select onchange="homeFilterMode=this.value;renderHome()" style="flex:1;margin:0;font-size:12px;padding:7px 8px">${modeOpts}</select>
+    </div>
+  </div>`;
+
+  // Filter items
+  let activeList=homeTab==='ok'?okList:overdueList;
+  if(homeSearch) activeList=activeList.filter(s=>s.plant.name.toLowerCase().includes(homeSearch.toLowerCase()));
+  if(homeFilterFert) activeList=activeList.filter(s=>s.fert.id===homeFilterFert);
+  if(homeFilterMode){
+    activeList=activeList.filter(s=>{
+      let last=getLastLog(s.plant.id,s.fert.id);
+      return last&&last.mode===homeFilterMode;
+    });
+  }
+
+  function cardHtml(s){
+    let info=urgencyInfo(s.next);
+    let pct=info.diff<0?100:Math.min(100,Math.round((1-(info.diff/s.fert.freqDays))*100));
+    let fc=info.diff<0?'#E24B4A':info.diff<=3?'#EF9F27':'#701615';
+    let gc=genreColor(s.plant.genreId);
+    let last=getLastLog(s.plant.id,s.fert.id);
+    let modeLabel=last&&last.mode?({'solo':'Solo','foliar':'Foliar','ambos':'Ambos'}[last.mode]||last.mode):'—';
+    return`<div class="check-item" style="cursor:default">
+      <div class="icon-circle" style="background:${gc}22"><i class="ti ti-leaf" style="color:${gc};font-size:16px"></i></div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px">
+          <div style="min-width:0">
+            <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.plant.name}</div>
+            <div class="meta"><span class="gdot" style="background:${gc}"></span> ${genreName(s.plant.genreId)} · <i class="ti ti-flask" style="font-size:11px"></i> ${s.fert.name} · ${modeLabel}</div>
+          </div>
+          <span class="badge ${info.cls}" style="flex-shrink:0">${info.label}</span>
+        </div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${fc}"></div></div>
+        <div class="meta" style="margin-top:3px">Última: ${fmtDate(s.last.date)} · Próxima: ${fmtDate(s.next)}</div>
+      </div>
+    </div>`;
+  }
+
+  let listHtml='';
+  if(!activeList.length){
+    listHtml=`<div class="empty"><i class="${homeTab==='ok'?'ti ti-circle-check':'ti ti-alert-circle'}"></i>${homeSearch?'Nenhuma planta encontrada.':homeTab==='ok'?'Nenhum agendamento em dia.':'Nenhum atraso.'}</div>`;
+  } else {
+    listHtml=`<div class="card" style="padding:.6rem .9rem">${activeList.map(cardHtml).join('')}</div>`;
+  }
+
+  document.getElementById('alertsArea').innerHTML=excessHtml+tabHtml+filterHtml+listHtml;
+  // restore focus to search if was typing
+  if(document.activeElement?.id!=='homeSearch'&&homeSearch){
+    let el=document.getElementById('homeSearch');
+    if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}
+  }
+}
+
+function setHomeTab(t){homeTab=t;homeSearch='';renderHome();}
+
+function showExcessDetail(key,plantName,fertName,diff,freqDays,prevDate,curDate,mode){
+  let modeLabel={'solo':'Solo','foliar':'Foliar','ambos':'Ambos'}[mode]||mode||'—';
+  showModal(`<div class="modal-handle"></div>
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="width:52px;height:52px;border-radius:50%;background:#FEF3CD;display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
+        <i class="ti ti-alert-triangle" style="font-size:26px;color:#EF9F27"></i>
+      </div>
+      <h3 style="color:#854F0B;margin-bottom:4px">Excesso de adubação</h3>
+    </div>
+    <div style="background:#fffdf5;border-radius:10px;border:1px solid #f0dfa0;padding:12px;margin-bottom:14px;font-size:13px;color:#555;line-height:1.6">
+      <strong>${plantName}</strong> recebeu <strong>${fertName}</strong> via <strong>${modeLabel}</strong> com apenas <strong>${diff} dia(s)</strong> de intervalo, abaixo do mínimo recomendado de <strong>${freqDays} dias</strong>.<br><br>
+      Aplicação anterior (${modeLabel}): <strong>${fmtDate(prevDate)}</strong><br>
+      Aplicação registrada (${modeLabel}): <strong>${fmtDate(curDate)}</strong>
+    </div>
+    <p style="font-size:12px;color:#aaa;margin-bottom:14px">O excesso de adubação pode prejudicar a planta. Monitore os sinais de saúde.</p>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Fechar</button>
+      <button class="btn" style="color:#854F0B;border-color:#EF9F27" onclick="dismissExcess('${key}')"><i class="ti ti-x"></i> Remover alerta</button>
+    </div>`);
+}
+
+function dismissExcess(key){
+  dismissedAlerts[key]=true;
+  saveDismissed();
+  closeModal();
+  renderHome();
+}
+
+// dosage state: {fertId: {plantId: {amount:'', unit:'colher'}}}
+let dosageState={};
+const DOSE_UNITS=['colher','gramas','ml','copo','pitada'];
+
+function renderCheckin(){
+  if(!fertilizers.length||!plants.length){
+    document.getElementById('checkinArea').innerHTML=`<div class="empty"><i class="ti ti-plant-off"></i>Cadastre plantas e adubos primeiro.</div>`;return;
+  }
+  let dateVal=document.getElementById('ciDate')?.value||today();
+  let html=`<div class="card" style="padding:.7rem .9rem;margin-bottom:10px">
+    <label>Data da adubação</label>
+    <input type="date" id="ciDate" value="${dateVal}" onchange="loadCheckinForDate(this.value)" style="margin:0">
+  </div>`;
+
+  fertilizers.forEach(fe=>{
+    if(!checkinState[fe.id])checkinState[fe.id]={plants:{},mode:'solo'};
+    if(!dosageState[fe.id])dosageState[fe.id]={};
+    let fs=checkinState[fe.id];
+    let checkedCount=Object.values(fs.plants).filter(Boolean).length;
+    html+=`<div class="card" style="padding:.8rem .9rem">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div class="icon-circle" style="background:#FFF3E0"><i class="ti ti-flask" style="color:#854F0B;font-size:17px"></i></div>
+        <div style="flex:1">
+          <h4>${fe.name}</h4>
+          <div class="meta">${fe.type} · NPK: ${fe.npk} · A cada ${fe.freqDays}d</div>
+        </div>
+        ${checkedCount?`<span class="badge info">${checkedCount} sel.</span>`:''}
+      </div>
+      <div class="mode-toggle">
+        <button class="mode-btn ${fs.mode==='solo'?'active':''}" onclick="setMode('${fe.id}','solo')"><i class="ti ti-shovel" style="font-size:13px"></i> Solo</button>
+        <button class="mode-btn ${fs.mode==='foliar'?'active':''}" onclick="setMode('${fe.id}','foliar')"><i class="ti ti-leaf" style="font-size:13px"></i> Foliar</button>
+      </div>`;
+
+    let byGenre={};
+    plants.forEach(pl=>{let gid=pl.genreId||'none';if(!byGenre[gid])byGenre[gid]=[];byGenre[gid].push(pl);});
+    Object.entries(byGenre).forEach(([gid,gplants])=>{
+      let gc=genreColor(gid);let gn=genreName(gid);
+      html+=`<div style="margin-top:8px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <div style="font-size:11px;font-weight:600;color:${gc};display:flex;align-items:center;gap:5px">
+            <span class="gdot" style="background:${gc}"></span>${gn}
+          </div>
+          <button style="font-size:11px;color:${gc};background:${gc}18;border:none;border-radius:6px;padding:2px 8px;cursor:pointer;font-weight:600" onclick="selectAllGenre('${fe.id}','${gid}',event)">
+            ${gplants.every(p=>!!fs.plants[p.id])?'Desmarcar todos':'Selecionar todos'}
+          </button>
+        </div>`;
+      gplants.forEach(pl=>{
+        let checked=!!fs.plants[pl.id];
+        let last=getLastLog(pl.id,fe.id);
+        let badge=last?urgencyInfo(addDays(last.date,fe.freqDays)):null;
+        // Warning: selected and within frequency period with same mode
+        let ciDate=document.getElementById('ciDate')?.value||today();
+        let warnExcess=false;
+        if(checked&&last){
+          let diff=daysDiff(last.date,ciDate);
+          if(diff>=0&&diff<fe.freqDays&&last.mode===fs.mode) warnExcess=true;
+        }
+        let dos=(dosageState[fe.id]||{})[pl.id]||{amount:'',unit:'colher'};
+        html+=`<div style="padding:9px 0;border-bottom:1px solid #f0f4f0">
+          <div style="display:flex;align-items:center;gap:9px;cursor:pointer" onclick="togglePlantCheck('${fe.id}','${pl.id}')">
+            <div class="check-box ${checked?'checked':''}">${checked?'<i class="ti ti-check" style="font-size:13px"></i>':''}</div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:4px">
+                <span style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pl.name}</span>
+                ${badge?`<span class="badge ${badge.cls}" style="font-size:10px;flex-shrink:0">${badge.label}</span>`:'<span class="badge new" style="font-size:10px">1ª vez</span>'}
+              </div>
+              <div class="meta">${pl.location||''}</div>
+            </div>
+            <button onclick="event.stopPropagation();openDosageModal('${fe.id}','${pl.id}','${pl.name.replace(/'/g,"&#39;")}')" title="Informar dosagem"
+              style="flex-shrink:0;background:${dos.amount?'#f5e8e8':'#f5f8f5'};border:1px solid ${dos.amount?'#c47c7b':'#d0d8d0'};border-radius:8px;padding:4px 8px;cursor:pointer;font-size:11px;color:${dos.amount?'#4a0e0d':'#aaa'};display:flex;align-items:center;gap:3px;white-space:nowrap">
+              <i class="ti ti-droplet-half-2" style="font-size:13px"></i>${dos.amount?dos.amount+' '+dos.unit:'Dose'}
+            </button>
+          </div>
+          ${warnExcess?`<div style="margin-top:5px;margin-left:31px;font-size:11px;color:#854F0B;font-weight:500;display:flex;align-items:center;gap:4px"><i class="ti ti-alert-triangle" style="font-size:12px"></i> Cuidado! Para esta planta o adubo está fora do prazo recomendado!</div>`:''}
+        </div>`;
+      });
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+  let hasAny=Object.values(checkinState).some(fs=>Object.values(fs.plants).some(Boolean));
+  let existingForDate=logs.some(l=>l.date===dateVal);
+  let canSave=hasAny||existingForDate;
+  html+=`<button class="btn ${existingForDate&&!hasAny?'danger':'primary'} full" style="margin-top:4px" onclick="saveCheckin()" ${canSave?'':'disabled'}>
+    <i class="ti ti-${existingForDate&&!hasAny?'trash':'device-floppy'}"></i> ${existingForDate&&!hasAny?'Zerar adubações do dia':existingForDate?'Atualizar adubações':'Salvar adubações'}
+  </button>`;
+  document.getElementById('checkinArea').innerHTML=html;
+}
+
+function openDosageModal(fertId,plantId,plantName){
+  let dos=(dosageState[fertId]||{})[plantId]||{amount:'',unit:'colher'};
+  let unitOpts=DOSE_UNITS.map(u=>`<option value="${u}" ${dos.unit===u?'selected':''}>${u}</option>`).join('');
+  showModal(`<div class="modal-handle"></div>
+    <h3>Dosagem</h3>
+    <p style="font-size:12px;color:#888;margin-bottom:12px">${plantName}</p>
+    <label>Quantidade</label>
+    <input type="number" id="doseAmount" placeholder="Ex: 2" value="${dos.amount}" min="0" step="0.5" style="margin-bottom:10px">
+    <label>Unidade</label>
+    <select id="doseUnit">${unitOpts}</select>
+    <div class="modal-footer">
+      <button class="btn" onclick="clearDosage('${fertId}','${plantId}')"><i class="ti ti-x"></i> Limpar</button>
+      <button class="btn primary" onclick="saveDosage('${fertId}','${plantId}')">Confirmar</button>
+    </div>`);
+}
+function saveDosage(fertId,plantId){
+  let amount=document.getElementById('doseAmount').value.trim();
+  let unit=document.getElementById('doseUnit').value;
+  if(!dosageState[fertId])dosageState[fertId]={};
+  dosageState[fertId][plantId]={amount,unit};
+  closeModal();renderCheckin();
+}
+function clearDosage(fertId,plantId){
+  if(dosageState[fertId])dosageState[fertId][plantId]={amount:'',unit:'colher'};
+  closeModal();renderCheckin();
+}
+
+function loadCheckinForDate(dateVal){
+  checkinState={};dosageState={};
+  let dayLogs=logs.filter(l=>l.date===dateVal);
+  dayLogs.forEach(l=>{
+    if(!checkinState[l.fertId])checkinState[l.fertId]={plants:{},mode:l.mode||'solo'};
+    checkinState[l.fertId].plants[l.plantId]=true;
+    checkinState[l.fertId].mode=l.mode||'solo';
+    if(l.dosage){
+      if(!dosageState[l.fertId])dosageState[l.fertId]={};
+      dosageState[l.fertId][l.plantId]=l.dosage;
+    }
+  });
+  renderCheckin();
+}
+
+function setMode(fertId,mode){checkinState[fertId].mode=mode;renderCheckin();}
+function togglePlantCheck(fertId,plantId){
+  if(!checkinState[fertId])checkinState[fertId]={plants:{},mode:'solo'};
+  checkinState[fertId].plants[plantId]=!checkinState[fertId].plants[plantId];
+  renderCheckin();
+}
+function selectAllGenre(fertId,gid,evt){
+  evt.stopPropagation();
+  if(!checkinState[fertId])checkinState[fertId]={plants:{},mode:'solo'};
+  let gplants=plants.filter(p=>(p.genreId||'none')===gid);
+  let allChecked=gplants.every(p=>!!checkinState[fertId].plants[p.id]);
+  gplants.forEach(p=>{ checkinState[fertId].plants[p.id]=!allChecked; });
+  renderCheckin();
+}
+function saveCheckin(){
+  let dateVal=document.getElementById('ciDate')?.value||today();
+  // Remove all existing logs for this date (will re-insert updated)
+  logs=logs.filter(l=>l.date!==dateVal);
+  let count=0;
+  Object.entries(checkinState).forEach(([fertId,fs])=>{
+    Object.entries(fs.plants).forEach(([plantId,checked])=>{
+      if(!checked)return;
+      let dos=(dosageState[fertId]||{})[plantId]||null;
+      let dosage=(dos&&dos.amount)?dos:null;
+      logs.push({id:uid(),plantId,fertId,date:dateVal,mode:fs.mode,dosage});
+      count++;
+    });
+  });
+  checkinState={};dosageState={};
+  saveData();renderAll();renderCheckin();
+  showToast(count===0?'Adubações removidas para este dia.':(count+' adubação(ões) salva(s)!'));
+}
+
+function renderPlants(){
+  let total=plants.length;
+  let byGenre={};
+  plants.forEach(pl=>{let gid=pl.genreId||'none';if(!byGenre[gid])byGenre[gid]=[];byGenre[gid].push(pl);});
+  let countHtml=`<p style="font-size:12px;color:#aaa;margin-bottom:10px;padding-left:2px">${total} planta${total!==1?'s':''} cadastrada${total!==1?'s':''}</p>`;
+  if(!plants.length){
+    document.getElementById('plantsList').innerHTML=countHtml+`<div class="empty"><i class="ti ti-plant-off"></i>Nenhuma planta cadastrada.</div>`;return;
+  }
+  let html=countHtml;
+  Object.entries(byGenre).forEach(([gid,gplants])=>{
+    let gc=genreColor(gid);let gn=genreName(gid);
+    html+=`<div style="margin-bottom:4px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;padding:0 2px">
+        <span class="gdot" style="background:${gc}"></span>
+        <span style="font-size:12px;font-weight:600;color:${gc}">${gn}</span>
+        <span style="font-size:11px;color:#aaa;background:#f5f5f5;padding:1px 7px;border-radius:10px">${gplants.length}</span>
+      </div>`;
+    gplants.forEach(pl=>{
+      let lc=logs.filter(l=>l.plantId===pl.id).length;
+      html+=`<button onclick="openPlantSheet('${pl.id}')" style="width:100%;text-align:left;background:#fff;border:1px solid #e8ede8;border-radius:14px;padding:.75rem .9rem;margin-bottom:8px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='${gc}';this.style.background='${gc}0a'" onmouseout="this.style.borderColor='#e8ede8';this.style.background='#fff'">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="icon-circle" style="background:${gc}18"><i class="ti ti-plant-2" style="color:${gc};font-size:16px"></i></div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#1a1a1a">${pl.name}</div>
+            <div class="meta"><i class="ti ti-map-pin" style="font-size:11px"></i> ${pl.location||'—'} · ${lc} registro${lc!==1?'s':''}</div>
+          </div>
+          <i class="ti ti-chevron-right" style="color:#ccc;font-size:16px;flex-shrink:0"></i>
+        </div>
+      </button>`;
+    });
+    html+='</div>';
+  });
+  document.getElementById('plantsList').innerHTML=html;
+}
+
+function openPlantSheet(id){
+  let p=plants.find(x=>x.id===id);
+  if(!p)return;
+  let gc=genreColor(p.genreId); let gn=genreName(p.genreId);
+  let lc=logs.filter(l=>l.plantId===p.id).length;
+  showModal(`<div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div class="icon-circle" style="background:${gc}22;width:42px;height:42px"><i class="ti ti-plant-2" style="color:${gc};font-size:20px"></i></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:16px;font-weight:700;color:#1a1a1a;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+        <div style="font-size:12px;color:${gc};font-weight:600;display:flex;align-items:center;gap:4px"><span class="gdot" style="background:${gc}"></span>${gn}</div>
+      </div>
+    </div>
+    <div style="background:#f8faf8;border-radius:12px;padding:12px;margin-bottom:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px">
+        <div><div style="color:#aaa;margin-bottom:2px">Localização</div><div style="font-weight:600;color:#1a1a1a">${p.location||'—'}</div></div>
+        <div><div style="color:#aaa;margin-bottom:2px">Registros</div><div style="font-weight:600;color:#1a1a1a">${lc} adubações</div></div>
+        <div><div style="color:#aaa;margin-bottom:2px">Data de chegada</div><div style="font-weight:600;color:#1a1a1a">${p.arrivalDate?fmtDate(p.arrivalDate):'—'}</div></div>
+        <div><div style="color:#aaa;margin-bottom:2px">Último replante</div><div style="font-weight:600;color:#1a1a1a">${p.repotDate?fmtDate(p.repotDate):'—'}</div></div>
+      </div>
+      ${p.notes?`<div style="margin-top:10px;padding-top:10px;border-top:1px solid #e8ede8;font-size:12px;color:#555">${p.notes}</div>`:''}
+    </div>
+    <div class="modal-footer">
+      <button class="btn sm danger" onclick="deletePlantFromSheet('${id}')"><i class="ti ti-trash"></i></button>
+      <button class="btn" onclick="closeModal()">Fechar</button>
+      <button class="btn primary" onclick="openPlantModal('${id}')"><i class="ti ti-edit"></i> Editar</button>
+    </div>`);
+}
+
+function deletePlantFromSheet(id){
+  if(!confirm('Excluir esta planta e seu histórico?'))return;
+  plants=plants.filter(p=>p.id!==id);
+  logs=logs.filter(l=>l.plantId!==id);
+  saveData();renderAll();closeModal();
+}
+
+function renderFerts(){
+  if(!fertilizers.length){document.getElementById('fertList').innerHTML=`<div class="empty"><i class="ti ti-flask-off"></i>Nenhum adubo cadastrado.</div>`;return;}
+  document.getElementById('fertList').innerHTML=fertilizers.map(f=>`
+  <button onclick="openFertSheet('${f.id}')" style="width:100%;text-align:left;background:#fff;border:1px solid #e8ede8;border-radius:14px;padding:.75rem .9rem;margin-bottom:8px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='#EF9F27';this.style.background='#fffcf5'" onmouseout="this.style.borderColor='#e8ede8';this.style.background='#fff'">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div class="icon-circle" style="background:#FFF3E0"><i class="ti ti-flask" style="color:#854F0B;font-size:16px"></i></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a">${f.name}</div>
+        <div class="meta">${f.type} · NPK: ${f.npk} · <i class="ti ti-calendar" style="font-size:11px"></i> ${f.freqDays}d</div>
+      </div>
+      <i class="ti ti-chevron-right" style="color:#ccc;font-size:16px;flex-shrink:0"></i>
+    </div>
+  </button>`).join('');
+}
+
+function openFertSheet(id){
+  let f=fertilizers.find(x=>x.id===id);
+  if(!f)return;
+  let usageCount=logs.filter(l=>l.fertId===id).length;
+  let plantCount=new Set(logs.filter(l=>l.fertId===id).map(l=>l.plantId)).size;
+  showModal(`<div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <div class="icon-circle" style="background:#FFF3E0;width:42px;height:42px"><i class="ti ti-flask" style="color:#854F0B;font-size:20px"></i></div>
+      <div style="flex:1">
+        <div style="font-size:16px;font-weight:700;color:#1a1a1a">${f.name}</div>
+        <div style="font-size:12px;color:#854F0B;font-weight:600">${f.type}</div>
+      </div>
+    </div>
+    <div style="background:#f8faf8;border-radius:12px;padding:12px;margin-bottom:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px">
+        <div><div style="color:#aaa;margin-bottom:2px">NPK</div><div style="font-weight:600;color:#1a1a1a">${f.npk||'—'}</div></div>
+        <div><div style="color:#aaa;margin-bottom:2px">Frequência</div><div style="font-weight:600;color:#1a1a1a">A cada ${f.freqDays} dias</div></div>
+        <div><div style="color:#aaa;margin-bottom:2px">Dosagem recomendada</div><div style="font-weight:600;color:#1a1a1a">${f.recDosage||'—'}</div></div>
+        <div><div style="color:#aaa;margin-bottom:2px">Usos registrados</div><div style="font-weight:600;color:#1a1a1a">${usageCount} (${plantCount} plantas)</div></div>
+      </div>
+      ${f.notes?`<div style="margin-top:10px;padding-top:10px;border-top:1px solid #e8ede8;font-size:12px;color:#555">${f.notes}</div>`:''}
+    </div>
+    <div class="modal-footer">
+      <button class="btn sm danger" onclick="deleteFertFromSheet('${id}')"><i class="ti ti-trash"></i></button>
+      <button class="btn" onclick="closeModal()">Fechar</button>
+      <button class="btn primary" onclick="openFertModal('${id}')"><i class="ti ti-edit"></i> Editar</button>
+    </div>`);
+}
+
+function deleteFertFromSheet(id){
+  if(!confirm('Excluir este adubo?'))return;
+  fertilizers=fertilizers.filter(f=>f.id!==id);
+  logs=logs.filter(l=>l.fertId!==id);
+  saveData();renderAll();closeModal();
+}
+
+function renderGenres(){
+  if(!genres.length){document.getElementById('genreList').innerHTML=`<div class="empty"><i class="ti ti-category-2"></i>Nenhum gênero cadastrado.</div>`;return;}
+  document.getElementById('genreList').innerHTML=genres.map(g=>{
+    let count=plants.filter(p=>p.genreId===g.id).length;
+    return`<button onclick="openGenreSheet('${g.id}')" style="width:100%;text-align:left;background:#fff;border:1px solid #e8ede8;border-radius:14px;padding:.75rem .9rem;margin-bottom:8px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='${g.color}';this.style.background='${g.color}0a'" onmouseout="this.style.borderColor='#e8ede8';this.style.background='#fff'">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="icon-circle" style="background:${g.color}18">
+          <span class="gdot" style="background:${g.color};width:16px;height:16px"></span>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:600;color:#1a1a1a">${g.name}</div>
+          <div class="meta">${count} planta${count!==1?'s':''} cadastrada${count!==1?'s':''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="background:${g.color}22;color:${g.color};font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px">${count}</span>
+          <i class="ti ti-chevron-right" style="color:#ccc;font-size:16px"></i>
+        </div>
+      </div>
+    </button>`;
+  }).join('');
+}
+
+function openGenreSheet(id){
+  let g=genres.find(x=>x.id===id);
+  if(!g)return;
+  let gplants=plants.filter(p=>p.genreId===id);
+  let plantsHtml=gplants.length===0
+    ?`<div style="text-align:center;padding:20px;color:#aaa;font-size:13px"><i class="ti ti-plant-off" style="font-size:28px;display:block;margin-bottom:6px;opacity:.4"></i>Nenhuma planta neste gênero</div>`
+    :gplants.map(pl=>{
+      let lc=logs.filter(l=>l.plantId===pl.id).length;
+      return`<button onclick="closeModal();setTimeout(()=>openPlantSheet('${pl.id}'),150)" style="width:100%;text-align:left;background:#f8faf8;border:1px solid #e8ede8;border-radius:11px;padding:10px 12px;margin-bottom:7px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='${g.color}'" onmouseout="this.style.borderColor='#e8ede8'">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="icon-circle" style="background:${g.color}18;width:30px;height:30px"><i class="ti ti-plant-2" style="color:${g.color};font-size:14px"></i></div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${pl.name}</div>
+            <div style="font-size:11px;color:#aaa">${pl.location||'—'} · ${lc} registro${lc!==1?'s':''}</div>
+          </div>
+          <i class="ti ti-chevron-right" style="color:#ccc;font-size:14px"></i>
+        </div>
+      </button>`;
+    }).join('');
+
+  showModal(`<div class="modal-handle"></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <div class="icon-circle" style="background:${g.color}18;width:42px;height:42px">
+        <span class="gdot" style="background:${g.color};width:18px;height:18px"></span>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:17px;font-weight:700;color:#1a1a1a">${g.name}</div>
+        <div style="font-size:12px;color:#aaa">${gplants.length} planta${gplants.length!==1?'s':''}</div>
+      </div>
+      <button class="btn sm" onclick="closeModal();setTimeout(()=>openGenreModal('${id}'),150)"><i class="ti ti-edit"></i></button>
+    </div>
+    <div style="max-height:320px;overflow-y:auto">${plantsHtml}</div>
+    <div style="margin-top:10px;text-align:right">
+      <button class="btn" onclick="closeModal()">Fechar</button>
+    </div>`);
+}
+
+// ---- Modals ----
+function openPlantModal(id){
+  let p=id?plants.find(x=>x.id===id):null;
+  let genreOpts=genres.map(g=>`<option value="${g.id}" ${p&&p.genreId===g.id?'selected':''}>${g.name}</option>`).join('');
+  showModal(`<div class="modal-handle"></div>
+    <h3>${p?'Editar planta':'Nova planta'}</h3>
+    <label>Gênero *</label>
+    <select id="mPG">${genres.length?genreOpts:'<option value="">— Cadastre gêneros primeiro —</option>'}</select>
+    <label>Nome da espécie *</label>
+    <input type="text" id="mPN" placeholder="Ex: Monstera thai constellation" value="${p?p.name:''}">
+    <label>Localização</label>
+    <input type="text" id="mPL" placeholder="Varanda, Sala, Estufa..." value="${p?p.location:''}">
+    <div class="row">
+      <div><label>Data de chegada</label><input type="date" id="mPArrival" value="${p&&p.arrivalDate?p.arrivalDate:''}"></div>
+      <div><label>Último replante</label><input type="date" id="mPRepot" value="${p&&p.repotDate?p.repotDate:''}"></div>
+    </div>
+    <label>Observações</label>
+    <textarea id="mPO" placeholder="Ex: Controle de pragas, origem, particularidades...">${p?p.notes:''}</textarea>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" onclick="savePlant('${id||''}')">Salvar</button>
+    </div>`);
+}
+
+function savePlant(id){
+  let name=document.getElementById('mPN').value.trim();
+  let genreId=document.getElementById('mPG').value;
+  if(!name||!genreId){alert('Preencha o gênero e o nome.');return;}
+  // Duplicate check
+  let duplicate=plants.find(p=>p.name.toLowerCase()===name.toLowerCase()&&p.id!==id);
+  if(duplicate){alert('Já existe uma planta com este nome cadastrada.');return;}
+  let loc=document.getElementById('mPL').value.trim();
+  let notes=document.getElementById('mPO').value.trim();
+  let arrivalDate=document.getElementById('mPArrival').value||'';
+  let repotDate=document.getElementById('mPRepot').value||'';
+  if(id){
+    let p=plants.find(x=>x.id===id);
+    p.name=name;p.genreId=genreId;p.location=loc;p.notes=notes;p.arrivalDate=arrivalDate;p.repotDate=repotDate;
+  } else {
+    plants.push({id:uid(),name,genreId,location:loc,notes,arrivalDate,repotDate});
+  }
+  saveData();renderAll();closeModal();
+}
+
+function deletePlant(id){if(!confirm('Excluir esta planta?'))return;plants=plants.filter(p=>p.id!==id);logs=logs.filter(l=>l.plantId!==id);saveData();renderAll();}
+
+function openFertModal(id){
+  let f=id?fertilizers.find(x=>x.id===id):null;
+  let types=['Líquido','Granulado','Biológico','Foliar','Quelato'];
+  let typeOpts=types.map(t=>`<option ${f&&f.type===t?'selected':''}>${t}</option>`).join('');
+  showModal(`<div class="modal-handle"></div>
+    <h3>${f?'Editar adubo':'Novo adubo'}</h3>
+    <label>Nome *</label><input type="text" id="mFN" placeholder="Ex: Forth Flores" value="${f?f.name:''}">
+    <div class="row">
+      <div><label>Tipo</label><select id="mFT">${typeOpts}</select></div>
+      <div><label>NPK</label><input type="text" id="mFNpk" placeholder="10-10-10" value="${f?f.npk:''}"></div>
+    </div>
+    <div class="row">
+      <div><label>Frequência (dias) *</label><input type="number" id="mFF" min="1" placeholder="Ex: 15" value="${f?f.freqDays:''}"></div>
+      <div><label>Dosagem recomendada</label><input type="text" id="mFDos" placeholder="Ex: 2ml/L" value="${f&&f.recDosage?f.recDosage:''}"></div>
+    </div>
+    <label>Observações</label>
+    <textarea id="mFNotes" placeholder="Ex: Onde comprar, data da compra, dicas de uso...">${f&&f.notes?f.notes:''}</textarea>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" onclick="saveFert('${id||''}')">Salvar</button>
+    </div>`);
+}
+
+function saveFert(id){
+  let name=document.getElementById('mFN').value.trim();
+  let freq=parseInt(document.getElementById('mFF').value);
+  if(!name||!freq||freq<1){alert('Preencha nome e frequência.');return;}
+  let dupFert=fertilizers.find(f=>f.name.toLowerCase()===name.toLowerCase()&&f.id!==id);
+  if(dupFert){alert('Já existe um adubo com este nome cadastrado.');return;}
+  let type=document.getElementById('mFT').value;
+  let npk=document.getElementById('mFNpk').value.trim()||'-';
+  let recDosage=document.getElementById('mFDos').value.trim();
+  let notes=document.getElementById('mFNotes').value.trim();
+  if(id){
+    let f=fertilizers.find(x=>x.id===id);
+    f.name=name;f.type=type;f.npk=npk;f.freqDays=freq;f.recDosage=recDosage;f.notes=notes;
+  } else {
+    fertilizers.push({id:uid(),name,type,npk,freqDays:freq,recDosage,notes});
+  }
+  saveData();renderAll();closeModal();
+}
+
+function deleteFert(id){if(!confirm('Excluir este adubo?'))return;fertilizers=fertilizers.filter(f=>f.id!==id);logs=logs.filter(l=>l.fertId!==id);saveData();renderAll();}
+
+function openGenreModal(id){
+  let g=id?genres.find(x=>x.id===id):null;
+  let colors=['#701615','#185FA5','#854F0B','#993556','#701615','#534AB7','#639922','#5F5E5A','#A32D2D','#4a0e0d'];
+  let colorBtns=colors.map(c=>`<button type="button" onclick="selectColor('${c}')" id="cc_${c.slice(1)}" style="width:28px;height:28px;border-radius:50%;background:${c};border:2px solid transparent;cursor:pointer;transition:all .15s"></button>`).join('');
+  showModal(`<div class="modal-handle"></div>
+    <h3>${g?'Editar gênero':'Novo gênero'}</h3>
+    <label>Nome *</label>
+    <input type="text" id="mGN" placeholder="Ex: Monstera" value="${g?g.name:''}">
+    <label>Cor de identificação</label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px" id="colorPicker">${colorBtns}</div>
+    <input type="hidden" id="mGColor" value="${g?g.color:colors[0]}">
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" onclick="saveGenre('${id||''}')">Salvar</button>
+    </div>`);
+  selectColor(g?g.color:colors[0]);
+}
+function selectColor(c){
+  document.getElementById('mGColor').value=c;
+  document.querySelectorAll('[id^="cc_"]').forEach(b=>{
+    let bc='#'+b.id.slice(3);
+    b.style.borderColor=bc===c?'#1a1a1a':'transparent';
+    b.style.transform=bc===c?'scale(1.2)':'scale(1)';
+  });
+}
+function saveGenre(id){
+  let name=document.getElementById('mGN').value.trim();
+  let color=document.getElementById('mGColor').value;
+  if(!name){alert('Informe o nome do gênero.');return;}
+  if(id){let g=genres.find(x=>x.id===id);g.name=name;g.color=color;}
+  else{genres.push({id:uid(),name,color});}
+  saveData();renderAll();closeModal();
+}
+function deleteGenre(id){if(!confirm('Excluir gênero?'))return;genres=genres.filter(g=>g.id!==id);saveData();renderAll();}
+
+function showModal(html){
+  document.getElementById('modalContainer').innerHTML=`<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal">${html}</div></div>`;
+}
+function closeModal(){document.getElementById('modalContainer').innerHTML='';}
+
+function goTo(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.getElementById('tab-'+page).classList.add('active');
+  if(page==='checkin'){
+    let d=document.getElementById('ciDate')?.value||today();
+    loadCheckinForDate(d);
+  }
+}
+
+function showToast(msg){
+  let t=document.createElement('div');
+  t.className='toast';t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2500);
+}
+
+renderLogin('login');
+</script>
+</body>
+</html>
